@@ -1,12 +1,4 @@
 $(function() {
-  function show_message(message) {
-    $("#message").text(message);
-    $("#message-wrapper").show();
-    setTimeout(function() {
-      $("#message-wrapper").fadeOut("fast");
-    }, 3000);
-  }
-
   var document_last_text = null;
 
   function load_document() {
@@ -25,7 +17,6 @@ $(function() {
     $("#editor").val(text);
     document_last_text = text;
     $("#save-status").text("Document loaded and up to date");
-    //show_message("Document loaded ✔");
   }
 
 
@@ -35,7 +26,6 @@ $(function() {
       $.localStorage.set("bloopletech-wedit-document", text, 1000 * 3600 * 24 * 365);
 /*    $.post("/save", { text: $("#editor").text() });*/
       document_last_text = text;
-      //show_message("Document saved ✔");
       $("#save-status").text("Document saved and up to date");
     }
   }
@@ -53,7 +43,7 @@ $(function() {
     if($("#editor").val() != document_last_text) $("#save-status").text("Document unsaved");
   }
 
-  window.setInterval(check_save_document, 5000);
+  window.setInterval(check_save_document, 1000);
 
   window.onbeforeunload = function() {
     return ($("#editor").val() != document_last_text) ? "Your document is unsaved, please save it before leaving this page." : null;
@@ -62,7 +52,7 @@ $(function() {
   function word_count() {
     var s = $("#editor").val();
     var wc = !s ? 0 : (s.split(/^\s+$/).length === 2 ? 0 : 2 + s.split(/\s+/).length - s.split(/^\s+/).length - s.split(/\s+$/).length);
-    $("#word_count").text(wc + (wc == 1 ? " word" : " words"));
+    $("#word-count").text(wc + (wc == 1 ? " word" : " words"));
   }
 
   window.setInterval(word_count, 1000);
@@ -71,7 +61,6 @@ $(function() {
   $(window).resize(function() {
     $("#editor").css("height", $(window).height() - 30);
   }).resize();
-
 
   load_document();
   check_save_document();

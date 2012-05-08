@@ -4,7 +4,4 @@
 textarea { display: block; width: 100%; border: 0; padding: 0; resize: none; }
 textarea:focus { outline: none; }
 #toolbar { height: 30px; color: #808080; position: relative; }
-#message-wrapper { position: absolute; left: 0; top: 0; width: 1000px; height: 30px; z-index: 50; display: none; }
-#message { height: 28px; padding: 0 5px; border: 1px solid #ffff00; background-color: #ffffcc; color: #000000; }
 #save-status { float: right; }
-#save { float: right; font-size: 18px; padding: 0 10px; }
