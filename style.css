@@ -5,3 +5,4 @@ textarea { display: block; width: 100%; border: 0; padding: 0; resize: none; }
 textarea:focus { outline: none; }
 #toolbar { height: 30px; color: #808080; position: relative; }
 #save-status { float: right; }
+#key { border: 0; width: 150px; height: 30px; position: absolute; left: 425px; top: 0; color: #808080; }
