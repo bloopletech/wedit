@@ -1,6 +1,4 @@
 <?
-ini_set("display_errors", "0");
-
 include("config.php");
 mysql_connect($CONFIG['host'], $CONFIG['username'], $CONFIG['password']);
 mysql_select_db($CONFIG['database']);
