@@ -4,29 +4,57 @@ $(function() {
   function load_document() {
     if($("#key").val() == "") return;
 
-    $.get("/api.php", {
-      action: "load",
-      key: $("#key").val()
-    }, function(text) {
-      if(text == null) text = "";
+    if($.localStorage.get("bloopletech-wedit-document") != null) {
+      text = $.localStorage.get("bloopletech-wedit-document");
       $("#editor").val(text);
       document_last_text = text;
-      $("#save-status").text("Document loaded and up to date");
-    });
+      $("#save-status").text("Loaded from cache; save overwrites");
+      alert("Loaded document from cache, not server. Saving it will override the version on the server, even if " +
+       "the version on the server has been updated since you last worked on it.");
+    }
+    else {
+      $.ajax("/api.php", {
+        data: {
+          action: "load",
+          key: $("#key").val()
+        },
+        success: function(text) {
+          $("#editor").val(text);
+          document_last_text = text;
+          $("#save-status").text("Loaded and up to date");
+        },
+        error: function() {
+          document_last_text = "";
+          $("#save-status").text("Could not load; refresh to retry");
+          alert("Could not load document from server. Adding any text and then saving it will override the version "
+           + "on the server.");
+        }
+      });
+    }
   }
 
   function save_document() {
     if($("#key").val() == "") return;
 
     var text = $("#editor").val(); 
-    if(text == document_last_text) return;
-    $.post("/api.php", {
-      action: "save",
-      key: $("#key").val(),
-      text: text
-    }, function() {
-      document_last_text = text;
-      $("#save-status").text("Document saved and up to date");     
+    if(text == document_last_text && $.localStorage.get("bloopletech-wedit-document") == null) return;
+    $.ajax("/api.php", {
+      data: {
+        action: "save",
+        key: $("#key").val(),
+        text: text
+      },
+      type: 'POST',
+      success: function() {
+        document_last_text = text;
+        $.localStorage.set("bloopletech-wedit-document", null, 1000 * 3600 * 24 * 365);
+        $("#save-status").text("Saved and up to date");     
+      },
+      error: function() {
+        document_last_text = text;
+        $.localStorage.set("bloopletech-wedit-document", text, 1000 * 3600 * 24 * 365);
+        $("#save-status").text("Could not be saved; cached in browser");
+      }
     });
   }
 
@@ -40,7 +68,7 @@ $(function() {
   });
 
   function check_save_document() {
-    if($("#editor").val() != document_last_text) $("#save-status").text("Document unsaved");
+    if($("#editor").val() != document_last_text) $("#save-status").text("Unsaved");
   }
 
   window.setInterval(check_save_document, 1000);
