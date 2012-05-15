@@ -1,8 +1,8 @@
 * { margin: 0; padding: 0; font: 20px/1.40em 'HelveticaNeueLT Com 45 Lt', 'Helvetica Neue Light', 'Helvetice Neue', Helvetica, Arial, sans-serif; }
 .clear { clear: both; }
-#wrapper { width: 1000px; margin: 0 auto; }
+#wrapper { max-width: 1000px; margin: 0 auto; }
 textarea { display: block; width: 100%; border: 0; padding: 0; resize: none; }
 textarea:focus { outline: none; }
 #toolbar { height: 30px; color: #808080; position: relative; }
 #save-status { float: right; }
-#key { border: 0; width: 150px; height: 30px; position: absolute; left: 425px; top: 0; color: #808080; }
+#key { border: 0; width: 150px; height: 30px; position: absolute; left: 50%; top: 0; margin-left: -75px; text-align: center; color: #808080; }
