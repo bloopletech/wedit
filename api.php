@@ -30,9 +30,18 @@ function esc($str) {
 
 if($_REQUEST["action"] == "load") {
   $result = sql("SELECT * FROM documents WHERE `key` = ".esc($_REQUEST["key"])." LIMIT 1");
+  sql("UPDATE documents SET `lock` = ".esc($_REQUEST["lock"])." WHERE `key` = ".esc($_REQUEST["key"]));
   echo $result["text"];
 }
 else if($_REQUEST["action"] == "save") {
+  $result = sql("SELECT `lock` FROM documents WHERE `key` = ".esc($_REQUEST["key"])." LIMIT 1");
+  if($result) {
+    if($result["lock"] != $_REQUEST["lock"]) {
+      header("Status: 409 Conflict", null, 409);
+      echo "lock_violation";
+      die();
+    }
+  }
   sql("REPLACE INTO documents (`key`, `text`) VALUES(".esc($_REQUEST["key"]).", ".esc($_REQUEST["text"]).")");
 }
 ?>
