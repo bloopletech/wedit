@@ -31,6 +31,7 @@ function esc($str) {
 if($_REQUEST["action"] == "load") {
   $result = sql("SELECT * FROM documents WHERE `key` = ".esc($_REQUEST["key"])." LIMIT 1");
   sql("UPDATE documents SET `lock` = ".esc($_REQUEST["lock"])." WHERE `key` = ".esc($_REQUEST["key"]));
+  header("Content-Type: text/plain; charset=utf-8");
   echo $result["text"];
 }
 else if($_REQUEST["action"] == "save") {
