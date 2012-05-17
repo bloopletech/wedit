@@ -42,6 +42,6 @@ else if($_REQUEST["action"] == "save") {
       die();
     }
   }
-  sql("REPLACE INTO documents (`key`, `text`) VALUES(".esc($_REQUEST["key"]).", ".esc($_REQUEST["text"]).")");
+  sql("REPLACE INTO documents (`key`, `lock`, `text`) VALUES(".esc($_REQUEST["key"]).", ".esc($_REQUEST["lock"]).", ".esc($_REQUEST["text"]).")");
 }
 ?>
