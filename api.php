@@ -38,7 +38,6 @@ else if($_REQUEST["action"] == "save") {
   if($result) {
     if($result["lock"] != $_REQUEST["lock"]) {
       header("Status: 409 Conflict", null, 409);
-      echo "lock_violation";
       die();
     }
   }
