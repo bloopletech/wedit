@@ -29,7 +29,7 @@ $(function() {
       success: function(text) {
         $("#editor").val(text);
         document_last_text = text;
-        $("#save-status").text("Loaded and up to date");
+        $("#save-status").text("Loaded ✔");
       },
       error: function() {
         document_last_text = "";
@@ -56,7 +56,7 @@ $(function() {
       success: function() {
         document_last_text = text;
         save_key("document", null);
-        $("#save-status").text("Saved and up to date");     
+        $("#save-status").text("Saved ✔");
       },
       error: function(xhr) {
         document_last_text = text;
