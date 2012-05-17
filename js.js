@@ -20,17 +20,6 @@ $(function() {
   function load_document() {
     if($("#key").val() == "") return;
 
-    var skip_copy = false;
-
-    if(load_key("document") != null) {
-      text = load_key("document");
-      $("#editor").val(text);
-      document_last_text = text;
-      skip_copy = true;
-      $("#save-status").text("Loaded from cache; save overwrites");
-      alert("Loaded document from cache, not server. Saving it will override the version on the server, even if " +
-       "the version on the server has been updated since you last worked on it.");
-    }
     $.ajax("/api.php", {
       data: {
         action: "load",
@@ -38,17 +27,15 @@ $(function() {
         lock: lock
       },
       success: function(text) {
-        if(!skip_copy) {
-          $("#editor").val(text);
-          document_last_text = text;
-          $("#save-status").text("Loaded and up to date");
-        }
+        $("#editor").val(text);
+        document_last_text = text;
+        $("#save-status").text("Loaded and up to date");
       },
       error: function() {
         document_last_text = "";
         $("#save-status").text("Could not load; refresh to retry");
-        alert("Could not load document from server. Adding any text and then saving it will override the version "
-         + "on the server.");
+        alert("Could not load document from server. Please reload the page. Adding any text "
+         + "and then saving it will override the version on the server.");
       }
     });
   }
