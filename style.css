@@ -6,6 +6,6 @@ textarea:focus { outline: none; }
 #toolbar { height: 28px; color: #808080; position: relative; }
 #toolbar * { color: #808080; }
 #save-status { float: right; }
-#key-wrapper { width: 164px; height: 30px; position: absolute; left: 50%; top: 0; margin-left: -82px;  }
+#key-wrapper { width: 164px; height: 28px; position: absolute; left: 50%; top: 0; margin-left: -82px;  }
 #key { float: left; width: 150px; height: 28px; border: 0; text-align: center; }
 #key-new { width: 12px; float: left; text-decoration: none; margin-left: 2px; }
