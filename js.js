@@ -76,7 +76,7 @@ $(function() {
     });
   }
 
-  window.setInterval(save_document, 60000);
+  window.setInterval(save_document, 300000);
 
   $(document).keydown(function(event) {
     if (!( String.fromCharCode(event.which).toLowerCase() == 's' && event.ctrlKey) && !(event.which == 19)) return true;
