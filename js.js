@@ -105,7 +105,7 @@ $(function() {
   word_count();
 
   $(window).resize(function() {
-    $("#editor").css("height", $(window).height() - 30);
+    $("#editor").css("height", $(window).height() - 28);
   }).resize();
 
 
@@ -119,11 +119,7 @@ $(function() {
     e.preventDefault();
   });
 
-  var key = load_key("key");
-  if(key == null) key = generate_key(); 
-  $("#key").val(key).change();
-
-  check_save_document();
+  $("#key").val(load_key("key") || generate_key()).change();
 
   $("#editor").focus();
 });

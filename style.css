@@ -3,9 +3,9 @@
 #wrapper { max-width: 1000px; margin: 0 auto; }
 textarea { display: block; width: 100%; border: 0; padding: 0; resize: none; }
 textarea:focus { outline: none; }
-#toolbar { height: 30px; color: #808080; position: relative; }
+#toolbar { height: 28px; color: #808080; position: relative; }
 #toolbar * { color: #808080; }
 #save-status { float: right; }
-#key-wrapper { width: 170px; height: 30px; position: absolute; left: 50%; top: 0; margin-left: -85px;  }
-#key { float: left; width: 155px; height: 30px; border: 0; text-align: center; }
-#key-new { width: 15px; float: left; text-decoration: none; }
+#key-wrapper { width: 164px; height: 30px; position: absolute; left: 50%; top: 0; margin-left: -82px;  }
+#key { float: left; width: 150px; height: 28px; border: 0; text-align: center; }
+#key-new { width: 12px; float: left; text-decoration: none; margin-left: 2px; }
