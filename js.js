@@ -10,7 +10,10 @@ $(function() {
   }
 
   function generate_key() {
-    return Math.random().toString(36).substring(10);
+    var out = "";
+    var rand_chars = "abcdefghijkmnopqrstuvwxyz0123456789";
+    for(var i = 0; i < 8; i++) out += rand_chars.charAt(Math.floor(Math.random() * rand_chars.length + 1) - 1);
+    return out;
   }
 
   var document_last_text = null;
@@ -110,8 +113,14 @@ $(function() {
     save_key("key", $("#key").val());
     load_document();
   });
+
+  $("#key-new").click(function(e) {
+    $("#key").val(generate_key()).change();
+    e.preventDefault();
+  });
+
   var key = load_key("key");
-  if(key == null) key = "key-" + generate_key(); 
+  if(key == null) key = generate_key(); 
   $("#key").val(key).change();
 
   check_save_document();
