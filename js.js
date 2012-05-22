@@ -12,7 +12,7 @@ $(function() {
   function generate_key() {
     var out = "";
     var rand_chars = "abcdefghijkmnopqrstuvwxyz0123456789";
-    for(var i = 0; i < 8; i++) out += rand_chars.charAt(Math.floor(Math.random() * rand_chars.length + 1) - 1);
+    for(var i = 0; i < 7; i++) out += rand_chars.charAt(Math.floor(Math.random() * rand_chars.length + 1) - 1);
     return out;
   }
 
