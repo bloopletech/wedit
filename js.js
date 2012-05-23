@@ -67,6 +67,7 @@ $(function() {
 
         if(xhr.status == 409) {
           lock_violated = true;
+          window.clearInterval(save_interval);
           alert("This document is now being edited in another location. To prevent changes being lost, "
            + "this document will not save. Instead, refresh the page to reload the document and allow editing.");  
         }
@@ -76,7 +77,7 @@ $(function() {
     });
   }
 
-  window.setInterval(save_document, 300000);
+  var save_interval = window.setInterval(save_document, 300000);
 
   $(document).keydown(function(event) {
     if (!( String.fromCharCode(event.which).toLowerCase() == 's' && event.ctrlKey) && !(event.which == 19)) return true;
