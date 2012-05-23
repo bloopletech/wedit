@@ -23,6 +23,8 @@ $(function() {
   function load_document() {
     if($("#key").val() == "") return;
 
+    lock = generate_key();
+
     $.ajax("/api.php", {
       data: {
         action: "load",
