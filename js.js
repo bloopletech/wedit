@@ -2,7 +2,9 @@ $(function() {
   var key_prefix = "bloopletech-wedit-";
 
   function load_key(key) {
-    return $.localStorage.get(key_prefix + key);
+    var value = $.localStorage.get(key_prefix + key);
+    save_key(key, value);
+    return value;
   }
 
   function save_key(key, value) {
@@ -23,6 +25,17 @@ $(function() {
   function load_document() {
     if($("#key").val() == "") return;
 
+    if(load_key("document") != null) {
+      var text = load_key("document");
+      $("#editor").val(text);
+      document_last_text = text;
+      save_key("document", null);
+      $("#save-status").text("Loaded cache from browser ✓");
+      alert("Loaded cached version of your document; you can save the document, overwriting "
+       + "the version online, or reload the page, which will delete your cached version.");
+      return;
+    }
+
     lock = generate_key();
 
     $.ajax("/api.php", {
@@ -39,8 +52,7 @@ $(function() {
       error: function() {
         document_last_text = "";
         $("#save-status").text("Could not load; refresh to retry");
-        alert("Could not load document from server. Please reload the page. Adding any text "
-         + "and then saving it will override the version on the server.");
+        alert("Could not load online version of your document. Please reload the page. Saving your document will override the version online.");
       }
     });
   }
@@ -49,7 +61,7 @@ $(function() {
     if($("#key").val() == "" || lock_violated) return;
 
     var text = $("#editor").val(); 
-    if(text == document_last_text && load_key("document") == null) return;
+    if(text == document_last_text) return;
     $.ajax("/api.php", {
       data: {
         action: "save",
