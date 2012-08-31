@@ -57,6 +57,10 @@ $(function() {
     });
   }
 
+  function export_document() {
+    location.href = "/api.php?action=export&key=" + encodeURIComponent($("#key").val());
+  }
+
   function save_document() {
     if($("#key").val() == "" || lock_violated) return;
 
@@ -131,6 +135,11 @@ $(function() {
 
   $("#key-new").click(function(e) {
     $("#key").val(generate_key()).change();
+    e.preventDefault();
+  });
+
+  $("#key-export").click(function(e) {
+    export_document();
     e.preventDefault();
   });
 
