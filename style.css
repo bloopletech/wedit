@@ -8,4 +8,4 @@ textarea:focus { outline: none; }
 #save-status { float: right; }
 #key-wrapper { width: 164px; height: 28px; position: absolute; left: 50%; top: 0; margin-left: -68px;  }
 #key { float: left; width: 124px; height: 28px; border: 0; text-align: center; }
-#key-new { width: 12px; float: left; text-decoration: none; margin-left: 2px; }
+#key-new, #key-export { width: 12px; float: left; text-decoration: none; margin-left: 2px; }
