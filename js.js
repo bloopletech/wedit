@@ -19,8 +19,12 @@ $(function() {
   }
 
   var document_last_text = null;
-  var lock = generate_key();
+  var lock = null;
   var lock_violated = false;
+
+  function prevent_edits() {
+    $("#editor").attr("readonly", "readonly");
+  }
 
   function load_document() {
     if($("#key").val() == "") return;
@@ -28,15 +32,10 @@ $(function() {
     if(load_key("document") != null) {
       var text = load_key("document");
       $("#editor").val(text);
-      document_last_text = text;
-      save_key("document", null);
       $("#save-status").text("Loaded cache from browser ✓");
-      alert("Loaded cached version of your document; you can save the document, overwriting "
-       + "the version online, or reload the page, which will delete your cached version.");
+
       return;
     }
-
-    lock = generate_key();
 
     $.ajax("/api.php", {
       data: {
@@ -51,8 +50,8 @@ $(function() {
       },
       error: function() {
         document_last_text = "";
-        $("#save-status").text("Could not load; refresh to retry");
-        alert("Could not load online version of your document. Please reload the page. Saving your document will override the version online.");
+        prevent_edits();
+        alert("Could not load online version of your document. Please reload the page.");
       }
     });
   }
@@ -81,16 +80,19 @@ $(function() {
       },
       error: function(xhr) {
         document_last_text = text;
-        save_key("document", text);
 
         if(xhr.status == 409) {
           lock_violated = true;
           window.clearInterval(save_interval);
+          save_key("document", null);
+          prevent_edits();
           alert("This document is now being edited in another location. To prevent changes being lost, "
-           + "this document will not save. Instead, refresh the page to reload the document and allow editing.");  
+           + "this document will not save. Instead, please reload the page.");
         }
-
-        $("#save-status").text("Could not be saved; cached in browser");
+        else {
+          save_key("document", text);
+          $("#save-status").text("Could not be saved; cached in browser.");
+        }
       }
     });
   }
@@ -122,6 +124,13 @@ $(function() {
 
   window.setInterval(word_count, 1000);
   word_count();
+
+  lock = load_key("lock")
+
+  if(lock == null) {
+    lock = generate_key();
+    save_key("lock", lock);
+  }
 
   $(window).resize(function() {
     $("#editor").css("height", $(window).height() - 28);
