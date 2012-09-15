@@ -98,7 +98,7 @@ $(function() {
   var save_interval = window.setInterval(save_document, 300000);
 
   $(document).keydown(function(event) {
-    if (!( String.fromCharCode(event.which).toLowerCase() == 's' && event.ctrlKey) && !(event.which == 19)) return true;
+    if (!(String.fromCharCode(event.which).toLowerCase() == 's' && event.ctrlKey) && !(event.which == 19)) return true;
     save_document();
     event.preventDefault();
     return false;
