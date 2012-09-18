@@ -45,14 +45,14 @@ $(function() {
         $("#save-status").text("Loaded ✓");
       },
       error: function() {
-        document_last_text = "";
+        document_last_text = text;
         $("#save-status").text("Could not check online; loaded from local copy ✓")
       }
     });
   }
 
   function save_document() {
-    if($("#key").val() == "" || lock_violated) return;
+    if($("#key").val() == "") return;
 
     var text = $("#editor").val(); 
     if(text == document_last_text) return;
@@ -109,17 +109,9 @@ $(function() {
   window.setInterval(word_count, 1000);
   word_count();
 
-  lock = load_key("lock")
-
-  if(lock == null) {
-    lock = generate_key();
-    save_key("lock", lock);
-  }
-
   $(window).resize(function() {
     $("#editor").css("height", $(window).height() - 28);
   }).resize();
-
 
   $("#key").change(function() {
     save_key("key", $("#key").val());
