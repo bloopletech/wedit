@@ -45,8 +45,9 @@ $(function() {
         $("#save-status").text("Loaded ✓");
       },
       error: function() {
+        $("#editor").val(text);
         document_last_text = text;
-        $("#save-status").text("Could not check online; loaded from local copy ✓")
+        $("#save-status").text("Server failed; loaded locally ✓")
       }
     });
   }
@@ -70,7 +71,7 @@ $(function() {
         $("#save-status").text("Saved ✓");
       },
       error: function(xhr) {
-        $("#save-status").text("Could not save online; saved locally ✓");
+        $("#save-status").text("Server failed; saved locally ✓");
       }
     });
 
