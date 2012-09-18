@@ -30,19 +30,11 @@ function esc($str) {
 
 if($_REQUEST["action"] == "load" || $_REQUEST["action"] == "export") {
   $result = sql("SELECT * FROM documents WHERE `key` = ".esc($_REQUEST["key"])." LIMIT 1");
-  sql("UPDATE documents SET `lock` = ".esc($_REQUEST["lock"])." WHERE `key` = ".esc($_REQUEST["key"]));
   header("Content-Type: text/plain; charset=utf-8");
   if($_REQUEST["action"] == "export") header("Content-disposition: attachment; filename=".$_REQUEST["key"].".txt"); 
   echo $result["text"];
 }
 else if($_REQUEST["action"] == "save") {
-  $result = sql("SELECT `lock` FROM documents WHERE `key` = ".esc($_REQUEST["key"])." LIMIT 1");
-  if($result) {
-    if($result["lock"] != $_REQUEST["lock"]) {
-      header("Status: 409 Conflict", null, 409);
-      die();
-    }
-  }
-  sql("REPLACE INTO documents (`key`, `lock`, `text`) VALUES(".esc($_REQUEST["key"]).", ".esc($_REQUEST["lock"]).", ".esc($_REQUEST["text"]).")");
+  sql("REPLACE INTO documents (`key`, `text`, `last_modified`) VALUES(".esc($_REQUEST["key"]).", ".esc($_REQUEST["text"]).", ".esc($_REQUEST["last_modified"]).")");
 }
 ?>

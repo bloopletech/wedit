@@ -18,46 +18,36 @@ $(function() {
     return out;
   }
 
-  var document_last_text = null;
-  var lock = null;
-  var lock_violated = false;
-
-  function prevent_edits() {
-    $("#editor").attr("readonly", "readonly");
+  function document_id(id) {
+    return "document-" + id.replace(/[^A-Za-z0-9]+/, "_");
   }
+
+  var document_last_text = null;
 
   function load_document() {
     if($("#key").val() == "") return;
 
-    if(load_key("document") != null) {
-      var text = load_key("document");
-      $("#editor").val(text);
-      $("#save-status").text("Loaded cache from browser ✓");
-
-      return;
-    }
+    var text = load_key(document_id());
 
     $.ajax("/api.php", {
       data: {
         action: "load",
         key: $("#key").val(),
-        lock: lock
+        last_modified: load_key(document_id() + "-last-modified")
       },
-      success: function(text) {
-        $("#editor").val(text);
-        document_last_text = text;
+      success: function(text, success_string, xhr) {
+        if(xhr.status == 200) {
+          $("#editor").val(text);
+          save_key(document_id(), text);
+          document_last_text = text;
+        }
         $("#save-status").text("Loaded ✓");
       },
       error: function() {
         document_last_text = "";
-        prevent_edits();
-        alert("Could not load online version of your document. Please reload the page.");
+        $("#save-status").text("Could not check online; loaded from local copy ✓")
       }
     });
-  }
-
-  function export_document() {
-    location.href = "/api.php?action=export&key=" + encodeURIComponent($("#key").val());
   }
 
   function save_document() {
@@ -65,36 +55,29 @@ $(function() {
 
     var text = $("#editor").val(); 
     if(text == document_last_text) return;
+    save_key(document_id(), text);
+    save_key(document_id() + "-last-modified", (new Date().getTime()));
+
     $.ajax("/api.php", {
       data: {
         action: "save",
         key: $("#key").val(),
-        lock: lock,
         text: text
       },
       type: 'POST',
       success: function() {
-        document_last_text = text;
-        save_key("document", null);
         $("#save-status").text("Saved ✓");
       },
       error: function(xhr) {
-        document_last_text = text;
-
-        if(xhr.status == 409) {
-          lock_violated = true;
-          window.clearInterval(save_interval);
-          save_key("document", null);
-          prevent_edits();
-          alert("This document is now being edited in another location. To prevent changes being lost, "
-           + "this document will not save. Instead, please reload the page.");
-        }
-        else {
-          save_key("document", text);
-          $("#save-status").text("Could not be saved; cached in browser.");
-        }
+        $("#save-status").text("Could not save online; saved locally ✓");
       }
     });
+
+    document_last_text = text;
+  }
+
+  function export_document() {
+    location.href = "/api.php?action=export&key=" + encodeURIComponent($("#key").val());
   }
 
   var save_interval = window.setInterval(save_document, 300000);
