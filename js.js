@@ -18,8 +18,8 @@ $(function() {
     return out;
   }
 
-  function document_id(id) {
-    return "document-" + id.replace(/[^A-Za-z0-9]+/, "_");
+  function document_id() {
+    return "document-" + $("#key").val().replace(/[^A-Za-z0-9]+/, "_");
   }
 
   var document_last_text = null;
@@ -28,6 +28,7 @@ $(function() {
     if($("#key").val() == "") return;
 
     var text = load_key(document_id());
+//    var not_exists = text == null;
 
     $.ajax("/api.php", {
       data: {
@@ -36,7 +37,7 @@ $(function() {
         last_modified: load_key(document_id() + "-last-modified")
       },
       success: function(text, success_string, xhr) {
-        if(xhr.status == 200) {
+        if(xhr.status == 200) {// || not_exists) {
           $("#editor").val(text);
           save_key(document_id(), text);
           document_last_text = text;
