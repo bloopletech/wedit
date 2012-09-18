@@ -28,7 +28,6 @@ $(function() {
     if($("#key").val() == "") return;
 
     var text = load_key(document_id());
-//    var not_exists = text == null;
 
     $.ajax("/api.php", {
       data: {
@@ -36,18 +35,18 @@ $(function() {
         key: $("#key").val(),
         last_modified: load_key(document_id() + "-last-modified")
       },
-      success: function(text, success_string, xhr) {
-        if(xhr.status == 200) {// || not_exists) {
-          $("#editor").val(text);
-          save_key(document_id(), text);
-          document_last_text = text;
+      complete: function(xhr, status) {
+        if(status == "success") {
+          if(xhr.status == 200) text = xhr.responseText;
+          $("#save-status").text("Loaded ✓");
         }
-        $("#save-status").text("Loaded ✓");
-      },
-      error: function() {
+        else {
+          $("#save-status").text("Server failed; loaded locally ✓");
+        }
+
         $("#editor").val(text);
+        save_key(document_id(), text);
         document_last_text = text;
-        $("#save-status").text("Server failed; loaded locally ✓")
       }
     });
   }
@@ -64,7 +63,8 @@ $(function() {
       data: {
         action: "save",
         key: $("#key").val(),
-        text: text
+        text: text,
+        last_modified: load_key(document_id() + "-last-modified")
       },
       type: 'POST',
       success: function() {

@@ -30,6 +30,10 @@ function esc($str) {
 
 if($_REQUEST["action"] == "load" || $_REQUEST["action"] == "export") {
   $result = sql("SELECT * FROM documents WHERE `key` = ".esc($_REQUEST["key"])." LIMIT 1");
+  if(floatval($_REQUEST["last_modified"]) > floatval($result["last_modified"])) {
+    header("Status: 204 No Content", null, 204);
+    die();
+  }
   header("Content-Type: text/plain; charset=utf-8");
   if($_REQUEST["action"] == "export") header("Content-disposition: attachment; filename=".$_REQUEST["key"].".txt"); 
   echo $result["text"];
