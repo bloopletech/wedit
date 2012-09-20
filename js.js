@@ -47,17 +47,26 @@ $(function() {
         $("#editor").val(text);
         save_key(document_id(), text);
         document_last_text = text;
+        $("body").show();
       }
     });
+  }
+
+  function save_document_locally() {
+    if($("#key").val() == "") return;
+
+    var text = $("#editor").val();
+    save_key(document_id(), text);
+    save_key(document_id() + "-last-modified", (new Date().getTime()));
+
+    return text;
   }
 
   function save_document() {
     if($("#key").val() == "") return;
 
-    var text = $("#editor").val(); 
-    if(text == document_last_text) return;
-    save_key(document_id(), text);
-    save_key(document_id() + "-last-modified", (new Date().getTime()));
+    var text = save_document_locally();
+    if(document_last_text == text) return;
 
     $.ajax("/api.php", {
       data: {
@@ -69,13 +78,13 @@ $(function() {
       type: 'POST',
       success: function() {
         $("#save-status").text("Saved ✓");
+        document_last_text = text;
       },
       error: function(xhr) {
         $("#save-status").text("Server failed; saved locally ✓");
+        document_last_text = text;
       }
     });
-
-    document_last_text = text;
   }
 
   function export_document() {
@@ -101,14 +110,14 @@ $(function() {
     return ($("#editor").val() != document_last_text) ? "Your document is unsaved, please save it before leaving this page." : null;
   };
 
-  function word_count() {
+  function statistics() {
     var s = $("#editor").val();
     var wc = !s ? 0 : (s.split(/^\s+$/).length === 2 ? 0 : 2 + s.split(/\s+/).length - s.split(/^\s+/).length - s.split(/\s+$/).length);
-    $("#word-count").text(wc + (wc == 1 ? " word" : " words"));
+    $("#statistics").text(($.digits(wc) + (wc == 1 ? " word" : " words")) + " / " + $.format_bytes($.bytesize(s)));
   }
 
-  window.setInterval(word_count, 1000);
-  word_count();
+  window.setInterval(statistics, 1000);
+  statistics();
 
   $(window).resize(function() {
     $("#editor").css("height", $(window).height() - 28);
@@ -129,6 +138,7 @@ $(function() {
     e.preventDefault();
   });
 
+  $("body").hide();
   $("#key").val(load_key("key") || generate_key()).change();
 
   $("#editor").focus();

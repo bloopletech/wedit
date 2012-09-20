@@ -1,9 +1,11 @@
 CACHE MANIFEST
-# 33
+# 44
 /index.html
 /style.css
 http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 /jquery.localStorage.js
+/jquery.bytesize.js
+/jquery.digits.js
 /js.js
 /jquery.caret.js
 /autocorrect.js
