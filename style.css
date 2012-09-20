@@ -1,4 +1,6 @@
-* { margin: 0; padding: 0; font: 20px/1.40em 'HelveticaNeueLT Com 45 Lt', 'Helvetica Neue Light', 'Helvetice Neue', Helvetica, Arial, sans-serif; }
+@font-face { font-family: Inconsolata; src: url("/Inconsolata.otf"); }
+
+* { margin: 0; padding: 0; font: 20px/1.40em Inconsolata, 'HelveticaNeueLT Com 45 Lt', 'Helvetica Neue Light', 'Helvetice Neue', Helvetica, Arial, sans-serif; }
 .clear { clear: both; }
 #wrapper { max-width: 1000px; margin: 0 auto; }
 textarea { display: block; width: 100%; border: 0; padding: 0; resize: none; }

@@ -1,6 +1,7 @@
 CACHE MANIFEST
-# 44
+# 47
 /index.html
+/Inconsolata.otf
 /style.css
 http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 /jquery.localStorage.js
