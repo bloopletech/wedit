@@ -1,16 +1,16 @@
 CACHE MANIFEST
-# 47
+# 50
 /index.html
-/Inconsolata.otf
-/style.css
+/assets/Inconsolata.otf
+/assets/style.css
 http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
-/jquery.localStorage.js
-/jquery.bytesize.js
-/jquery.digits.js
-/js.js
-/jquery.caret.js
-/autocorrect.js
-/autocorrect.wordlist.js
+/assets/jquery.localStorage.js
+/assets/jquery.bytesize.js
+/assets/jquery.digits.js
+/assets/js.js
+/assets/jquery.caret.js
+/assets/autocorrect.js
+/assets/autocorrect.wordlist.js
 
 NETWORK:
 *
