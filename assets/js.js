@@ -24,9 +24,38 @@ $(function() {
 
   var document_last_text = null;
 
-  function load_document() {
+  function sync() {
     if($("#key").val() == "") return;
 
+    if($("#editor").val() == document_last_text) {
+      load_document_online();
+    }
+    else {
+      save_document_online();
+    }
+  }
+
+  function edit_document(text) {
+    $("#editor").val(text).focus();
+    $("#editor").caret(parseInt(load_key(document_id() + "-caret")));
+    save_key(document_id(), text);
+    document_last_text = text;
+  }
+
+  function load_document_locally() {
+    console.log("Loading document locally");
+    var text = load_key(document_id());
+    if(text == null) {
+      load_document_online();
+    }
+    else {
+      edit_document(text);
+      $("#local-save-status").text("Loaded ✓");
+    }
+  }
+
+  function load_document_online() {
+    console.log("Loading document online");
     var text = load_key(document_id());
 
     $.ajax("/api.php", {
@@ -38,37 +67,38 @@ $(function() {
       complete: function(xhr, status) {
         if(status == "success") {
           if(xhr.status == 200) text = xhr.responseText;
-          $("#save-status").text("Loaded ✓");
+          $("#online-save-status").text("Loaded ✓");
         }
         else {
-          $("#save-status").text("Server failed; loaded locally ✓");
+          $("#online-save-status").text("Failed ⚠");
         }
 
-        $("#editor").val(text).focus();
-        $("#editor").caret(parseInt(load_key(document_id() + "-caret")));
-        save_key(document_id(), text);
-        document_last_text = text;
-        $("body").show();
+        edit_document(text);
       }
     });
   }
 
-  function save_document_locally() {
-    if($("#key").val() == "") return;
-
+  function finish_edit_document() {
     var text = $("#editor").val();
     save_key(document_id(), text);
     save_key(document_id() + "-last-modified", (new Date().getTime()));
     save_key(document_id() + "-caret", $("#editor").caret());
-
-    return text;
   }
 
-  function save_document() {
-    if($("#key").val() == "") return;
+  function save_document_locally() {
+    if($("#editor").val() == document_last_text) return;
+    console.log("Saving document locally");
+    finish_edit_document();
+    $("#local-save-status").text("Saved ✓");
+  }
 
-    var text = save_document_locally();
-    if(document_last_text == text) return;
+  window.setInterval(save_document_locally, 10000);
+
+  function save_document_online() {
+    console.log("Saving document online");
+    save_document_locally();
+    var text = $("#editor").val();
+    if(text == document_last_text) return;
 
     $.ajax("/api.php", {
       data: {
@@ -79,11 +109,11 @@ $(function() {
       },
       type: 'POST',
       success: function() {
-        $("#save-status").text("Saved ✓");
+        $("#online-save-status").text("Saved ✓");
         document_last_text = text;
       },
       error: function(xhr) {
-        $("#save-status").text("Server failed; saved locally ✓");
+        $("#online-save-status").text("Failed ⚠");
         document_last_text = text;
       }
     });
@@ -93,8 +123,6 @@ $(function() {
     location.href = "/api.php?action=export&key=" + encodeURIComponent($("#key").val());
   }
 
-  var save_interval = window.setInterval(save_document, 300000);
-
   $(document).keydown(function(event) {
     if (!(String.fromCharCode(event.which).toLowerCase() == 's' && event.ctrlKey) && !(event.which == 19)) return true;
     save_document();
@@ -103,7 +131,7 @@ $(function() {
   });
 
   function check_save_document() {
-    if($("#editor").val() != document_last_text) $("#save-status").text("Unsaved");
+    if($("#editor").val() != document_last_text) $("#local-save-status, #online-save-status").text("Unsaved");
   }
 
   window.setInterval(check_save_document, 1000);
@@ -130,15 +158,20 @@ $(function() {
     if(key.length < 7) {
       alert("Please enter a key of at least 7 characters (letters and numbers); please make it hard to guess.\n" +
        "Your document key is like a password; with this, anyone can access and edit your document.");
-      $("body").show();
       return;
     }
     save_key("key", $("#key").val());
-    load_document();
+    load_document_locally();
+    $("#online-save-status").text("Not checked");
   });
 
   $("#key-new").click(function(e) {
     $("#key").val(generate_key()).change();
+    e.preventDefault();
+  });
+
+  $("#sync").click(function(e) {
+    sync();
     e.preventDefault();
   });
 
@@ -147,7 +180,6 @@ $(function() {
     e.preventDefault();
   });
 
-  $("body").hide();
   $("#key").val(load_key("key") || generate_key()).change();
 
   $("#editor").focus();

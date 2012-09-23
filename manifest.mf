@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 51
+# 52
 /index.html
 /assets/Inconsolata.otf
 /assets/style.css
