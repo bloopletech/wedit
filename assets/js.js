@@ -13,7 +13,7 @@ $(function() {
 
   function generate_key() {
     var out = "";
-    var rand_chars = "abcdefghijkmnopqrstuvwxyz0123456789";
+    var rand_chars = "ABCDEFGHIJKMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789";
     for(var i = 0; i < 7; i++) out += rand_chars.charAt(Math.floor(Math.random() * rand_chars.length + 1) - 1);
     return out;
   }
@@ -44,7 +44,8 @@ $(function() {
           $("#save-status").text("Server failed; loaded locally ✓");
         }
 
-        $("#editor").val(text);
+        $("#editor").val(text).focus();
+        $("#editor").caret(parseInt(load_key(document_id() + "-caret")));
         save_key(document_id(), text);
         document_last_text = text;
         $("body").show();
@@ -58,6 +59,7 @@ $(function() {
     var text = $("#editor").val();
     save_key(document_id(), text);
     save_key(document_id() + "-last-modified", (new Date().getTime()));
+    save_key(document_id() + "-caret", $("#editor").caret());
 
     return text;
   }
@@ -124,6 +126,13 @@ $(function() {
   }).resize();
 
   $("#key").change(function() {
+    var key = $("#key").val();
+    if(key.length < 7) {
+      alert("Please enter a key of at least 7 characters (letters and numbers); please make it hard to guess.\n" +
+       "Your document key is like a password; with this, anyone can access and edit your document.");
+      $("body").show();
+      return;
+    }
     save_key("key", $("#key").val());
     load_document();
   });
