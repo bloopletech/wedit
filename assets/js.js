@@ -123,10 +123,10 @@ $(function() {
     location.href = "/api.php?action=export&key=" + encodeURIComponent($("#key").val());
   }
 
-  $(document).keydown(function(event) {
-    if (!(String.fromCharCode(event.which).toLowerCase() == 's' && event.ctrlKey) && !(event.which == 19)) return true;
-    save_document();
-    event.preventDefault();
+  $(document).keydown(function(e) {
+    if(!(String.fromCharCode(e.which).toLowerCase() == 's' && e.ctrlKey) && !(e.which == 19)) return true;
+    sync();
+    e.preventDefault();
     return false;
   });
 
