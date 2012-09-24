@@ -1,10 +1,9 @@
 CACHE MANIFEST
-# 53
+# 55
 /index.html
 /assets/Inconsolata.otf
 /assets/style.css
 http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
-/assets/jquery.localStorage.js
 /assets/jquery.bytesize.js
 /assets/jquery.digits.js
 /assets/js.js

@@ -1,14 +1,12 @@
 $(function() {
-  var key_prefix = "bloopletech-wedit-";
-
   function load_key(key) {
-    var value = $.localStorage.get(key_prefix + key);
+    var value = localStorage[key];
     save_key(key, value);
     return value;
   }
 
   function save_key(key, value) {
-    $.localStorage.set(key_prefix + key, value, 1000 * 3600 * 24 * 365);
+    localStorage[key] = value;
   }
 
   function generate_key() {
@@ -19,7 +17,7 @@ $(function() {
   }
 
   function document_id() {
-    return "document-" + $("#key").val().replace(/[^A-Za-z0-9]+/, "_");
+    return "document-" + $("#key").val();
   }
 
   var document_last_text = null;
@@ -37,7 +35,8 @@ $(function() {
 
   function edit_document(text) {
     $("#editor").val(text).focus();
-    $("#editor").caret(parseInt(load_key(document_id() + "-caret")));
+    //$("#editor").caret(parseInt(load_key(document_id() + "-caret")));
+    $("#editor").focus().caretToEnd().scrollTop(214748364);
     save_key(document_id(), text);
     document_last_text = text;
   }
