@@ -1,12 +1,12 @@
 $(function() {
   function load_key(key) {
-    var value = localStorage[key];
+    var value = localStorage.getItem(key);
     save_key(key, value);
     return value;
   }
 
   function save_key(key, value) {
-    localStorage[key] = value;
+    localStorage.setItem(key, value);
   }
 
   function generate_key() {
@@ -25,24 +25,18 @@ $(function() {
   function sync() {
     if($("#key").val() == "") return;
 
-    if($("#editor").val() == document_last_text) {
-      load_document_online();
-    }
-    else {
-      save_document_online();
-    }
+    if($("#editor").val() == document_last_text) load_document_online();
+    else save_document_online();
   }
 
   function edit_document(text) {
     $("#editor").val(text).focus();
-    //$("#editor").caret(parseInt(load_key(document_id() + "-caret")));
     $("#editor").focus().caretToEnd().scrollTop(214748364);
     save_key(document_id(), text);
     document_last_text = text;
   }
 
   function load_document_locally() {
-    console.log("Loading document locally");
     var text = load_key(document_id());
     if(text == null) {
       load_document_online();
@@ -54,7 +48,6 @@ $(function() {
   }
 
   function load_document_online() {
-    console.log("Loading document online");
     var text = load_key(document_id());
 
     $.ajax("/api.php", {
@@ -81,12 +74,10 @@ $(function() {
     var text = $("#editor").val();
     save_key(document_id(), text);
     save_key(document_id() + "-last-modified", (new Date().getTime()));
-    save_key(document_id() + "-caret", $("#editor").caret());
   }
 
   function save_document_locally() {
     if($("#editor").val() == document_last_text) return;
-    console.log("Saving document locally");
     finish_edit_document();
     $("#local-save-status").text("Saved ✓");
   }
@@ -94,7 +85,6 @@ $(function() {
   window.setInterval(save_document_locally, 10000);
 
   function save_document_online() {
-    console.log("Saving document online");
     save_document_locally();
     var text = $("#editor").val();
     if(text == document_last_text) return;
@@ -159,7 +149,7 @@ $(function() {
        "Your document key is like a password; with this, anyone can access and edit your document.");
       return;
     }
-    save_key("key", $("#key").val());
+    save_key("key", key);
     load_document_locally();
     $("#online-save-status").text("Not checked");
   });
