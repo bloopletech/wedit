@@ -38,12 +38,8 @@ $(function() {
 
   function load_document_locally() {
     var text = load_key(document_id());
-    if(text == null) {
-      load_document_online();
-    }
-    else {
-      edit_document(text);
-    }
+    if(text == null) load_document_online();
+    else edit_document(text);
   }
 
   function load_document_online() {
@@ -58,10 +54,10 @@ $(function() {
       complete: function(xhr, status) {
         if(status == "success") {
           if(xhr.status == 200) text = xhr.responseText;
-          $("#sync-status").text("Loaded");
+          $("#sync-status").html("Loaded <i class='icon-ok-sign'></i>");
         }
         else {
-          $("#sync-status").text("Sync Failed ⚠");
+          $("#sync-status").html("Sync Failed <i class='icon-exclamation-sign'></i>");
         }
 
         edit_document(text);
@@ -96,11 +92,11 @@ $(function() {
       },
       type: 'POST',
       success: function() {
-        $("#sync-status").text("Saved");
+        $("#sync-status").html("Saved <i class='icon-ok-sign'></i>");
         document_last_text = text;
       },
       error: function(xhr) {
-        $("#sync-status").text("Sync Failed ⚠");
+        $("#sync-status").html("Sync Failed <i class='icon-exclamation-sign'></i>");
         document_last_text = text;
       }
     });
@@ -118,7 +114,7 @@ $(function() {
   });
 
   function check_save_document() {
-    if($("#editor").val() != document_last_text) $("#sync-status").text("Not Synced");
+    if($("#editor").val() != document_last_text) $("#sync-status").html("Editing <i class='icon-edit'></i>");
   }
 
   window.setInterval(check_save_document, 1000);
@@ -149,7 +145,7 @@ $(function() {
     }
     save_key("key", key);
     load_document_locally();
-    $("#sync-status").text("Not Synced");
+    $("#sync-status").html("Editing <i class='icon-edit'></i>");
   });
 
   $("#key-new").click(function(e) {

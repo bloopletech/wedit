@@ -1,7 +1,9 @@
 CACHE MANIFEST
-# 58
+# 59
 /index.html
 /assets/Inconsolata.otf
+/assets/fontawesome-webfont.ttf
+/assets/font-awesome.css
 /assets/style.css
 http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 /assets/jquery.bytesize.js

@@ -3,6 +3,7 @@
   <head>
     <meta charset='utf-8'>
     <title>wedit</title>
+    <link rel="stylesheet" type="text/css" href="/assets/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/assets/style.css">
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
@@ -21,13 +22,13 @@
       <div id="toolbar">
         <span id="sync-wrapper">
           <span id="sync-status"></span>
-          <a href="#" id="sync">⇅</a>
+          <a href="#" id="sync" title="Sync document to server"><i class="icon-refresh"></i></a>
         </span>
         <span id="statistics"></span>
         <div id="key-wrapper">
-          <input type="text" id="key">
-          <a href="#" id="key-new">+</a>
-          <a href="#" id="key-export">↓</a>
+          <input type="text" id="key" title="Document ID">
+          <a href="#" id="key-new" title="Create a new document"><i class="icon-plus-sign"></i></a>
+          <a href="#" id="key-export" title="Export document to a text file"><i class="icon-download"></i></a>
         </div>
         <div class="clear"></div>
       </div>
