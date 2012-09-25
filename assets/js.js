@@ -43,7 +43,6 @@ $(function() {
     }
     else {
       edit_document(text);
-      $("#local-save-status").text("Loaded ✓");
     }
   }
 
@@ -59,10 +58,10 @@ $(function() {
       complete: function(xhr, status) {
         if(status == "success") {
           if(xhr.status == 200) text = xhr.responseText;
-          $("#online-save-status").text("Loaded ✓");
+          $("#sync-status").text("Loaded");
         }
         else {
-          $("#online-save-status").text("Failed ⚠");
+          $("#sync-status").text("Sync Failed ⚠");
         }
 
         edit_document(text);
@@ -79,10 +78,9 @@ $(function() {
   function save_document_locally() {
     if($("#editor").val() == document_last_text) return;
     finish_edit_document();
-    $("#local-save-status").text("Saved ✓");
   }
 
-  window.setInterval(save_document_locally, 10000);
+  window.setInterval(save_document_locally, 5000);
 
   function save_document_online() {
     save_document_locally();
@@ -98,11 +96,11 @@ $(function() {
       },
       type: 'POST',
       success: function() {
-        $("#online-save-status").text("Saved ✓");
+        $("#sync-status").text("Saved");
         document_last_text = text;
       },
       error: function(xhr) {
-        $("#online-save-status").text("Failed ⚠");
+        $("#sync-status").text("Sync Failed ⚠");
         document_last_text = text;
       }
     });
@@ -120,7 +118,7 @@ $(function() {
   });
 
   function check_save_document() {
-    if($("#editor").val() != document_last_text) $("#local-save-status, #online-save-status").text("Unsaved");
+    if($("#editor").val() != document_last_text) $("#sync-status").text("Not Synced");
   }
 
   window.setInterval(check_save_document, 1000);
@@ -151,7 +149,7 @@ $(function() {
     }
     save_key("key", key);
     load_document_locally();
-    $("#online-save-status").text("Not checked");
+    $("#sync-status").text("Not Synced");
   });
 
   $("#key-new").click(function(e) {

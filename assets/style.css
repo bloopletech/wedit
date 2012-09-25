@@ -1,13 +1,14 @@
 @font-face { font-family: Inconsolata; src: url("/assets/Inconsolata.otf"); }
 
-* { margin: 0; padding: 0; font: 20px/1.3em Inconsolata, monospace; }
+* { margin: 0; padding: 0; font: 20px/26px Inconsolata, monospace; }
 .clear { clear: both; }
-#wrapper { max-width: 1000px; margin: 0 auto; padding: 0 10px; background-color: #ffffff; }
+#wrapper { max-width: 1000px; margin: 0 auto; padding: 0 7px; background-color: #ffffff; }
 textarea { display: block; width: 100%; border: 0; padding: 0; resize: none; }
 textarea:focus { outline: none; }
 #toolbar { height: 28px; color: #808080; position: relative; }
 #toolbar * { color: #808080; }
-#save-status-wrapper { float: right; }
+#toolbar a { text-decoration: none; }
+#sync-wrapper { float: right; }
 #key-wrapper { width: 172px; height: 28px; position: absolute; left: 50%; top: 0; margin-left: -86px;  }
-#key { float: left; width: 124px; height: 28px; border: 0; text-align: center; }
-#key-new, #sync, #key-export { width: 12px; float: left; text-decoration: none; margin-left: 2px; }
+#key { float: left; width: 138px; height: 28px; border: 0; text-align: center; }
+#key-new, #key-export { width: 12px; float: left; margin-left: 2px; }
