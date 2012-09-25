@@ -57,7 +57,7 @@ $(function() {
           $("#sync-status").html("Loaded <i class='icon-ok-sign'></i>");
         }
         else {
-          $("#sync-status").html("Sync Failed <i class='icon-exclamation-sign'></i>");
+          $("#sync-status").html("Sync Failed <i class='icon-warning-sign'></i>");
         }
 
         edit_document(text);
@@ -96,7 +96,7 @@ $(function() {
         document_last_text = text;
       },
       error: function(xhr) {
-        $("#sync-status").html("Sync Failed <i class='icon-exclamation-sign'></i>");
+        $("#sync-status").html("Sync Failed <i class='icon-warning-sign'></i>");
         document_last_text = text;
       }
     });
