@@ -10,4 +10,4 @@ textarea:focus { outline: none; }
 #toolbar a { text-decoration: none; }
 #sync-wrapper { float: right; }
 #key-wrapper { width: 172px; height: 28px; position: absolute; left: 50%; top: 0; margin-left: -86px;  }
-#key { float: left; width: 130px; height: 28px; border: 0; text-align: center; }
+#key { width: 120px; height: 28px; border: 0; text-align: center; }

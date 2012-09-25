@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 59
+# 60
 /index.html
 /assets/Inconsolata.otf
 /assets/fontawesome-webfont.ttf
