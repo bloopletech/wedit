@@ -1,6 +1,7 @@
 @font-face { font-family: Inconsolata; src: url("/assets/Inconsolata.otf"); }
 
 * { margin: 0; padding: 0; font: 20px/26px Inconsolata, monospace; }
+body { background-image: url("/assets/skewed_print.png"); }
 .clear { clear: both; }
 #wrapper { max-width: 1000px; margin: 0 auto; padding: 0 7px; background-color: #ffffff; }
 textarea { display: block; width: 100%; border: 0; padding: 0; resize: none; }
