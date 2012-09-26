@@ -36,8 +36,13 @@ $(function() {
 
   function load_document_locally() {
     var text = load_key(document_id());
-    if(text == null) load_document_online();
-    else edit_document(text);
+    if(text == null) {
+      load_document_online();
+    }
+    else {
+      edit_document(text);
+      $("#sync-status").html("Loaded <i class='icon-ok-sign'></i>");
+    }
   }
 
   function load_document_online() {
@@ -81,6 +86,7 @@ $(function() {
     var text = $("#editor").val();
     if(text == document_last_text) return;
 
+    $("#sync-status").html("Syncing... <i class='icon-time'></i>");
     $.ajax("/api.php", {
       data: {
         action: "save",
@@ -142,7 +148,6 @@ $(function() {
     }
     save_key("key", key);
     load_document_locally();
-    $("#sync-status").html("Editing <i class='icon-edit'></i>");
   });
 
   $("#key-new").click(function(e) {
