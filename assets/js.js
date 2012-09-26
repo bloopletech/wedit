@@ -28,8 +28,7 @@ $(function() {
   }
 
   function edit_document(text) {
-    $("#editor").val(text).focus();
-    $("#editor").focus().caretToEnd().scrollTop(214748364);
+    $("#editor").val(text).focus().caretToEnd().scrollTop(214748364);
     save_key(document_id(), text);
     document_last_text = text;
   }
@@ -166,6 +165,4 @@ $(function() {
   });
 
   $("#key").val(load_key("key") || generate_key()).change();
-
-  $("#editor").focus();
 });
