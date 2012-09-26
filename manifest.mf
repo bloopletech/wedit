@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 61
+# 62
 /index.html
 /assets/skewed_print.png
 /assets/Inconsolata.otf

@@ -1,8 +1,6 @@
 $(function() {
   function load_key(key) {
-    var value = localStorage.getItem(key);
-    save_key(key, value);
-    return value;
+    return localStorage.getItem(key);
   }
 
   function save_key(key, value) {
@@ -43,7 +41,7 @@ $(function() {
   }
 
   function load_document_online() {
-    var text = load_key(document_id());
+    var text = load_key(document_id()) || "";
 
     $.ajax("/api.php", {
       data: {
@@ -107,10 +105,9 @@ $(function() {
   }
 
   $(document).keydown(function(e) {
-    if(!(String.fromCharCode(e.which).toLowerCase() == 's' && e.ctrlKey) && !(e.which == 19)) return true;
+    if(!(String.fromCharCode(e.which).toLowerCase() == 's' && e.ctrlKey) && !(e.which == 19)) return;
     sync();
     e.preventDefault();
-    return false;
   });
 
   function check_save_document() {
